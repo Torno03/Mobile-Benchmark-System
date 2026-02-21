@@ -9,14 +9,14 @@ const adminRoutes = require('./routes/adminRoutes')
 const wishlistRoutes = require('./routes/wishlistRoutes')
 const notificationRoutes = require('./routes/notificationRoutes')
 const FaqRoutes = require('./routes/FaqRoutes');
+const commentRoutes      = require('./routes/commentRoutes')
 
-dotenv.config(); // Loads variables from .env
-connectDB(); // Connects to MongoDB
+dotenv.config();
+connectDB();
 
-// App setup
 const app = express();
-app.use(cors()); // Allows frontend apps to access this backend
-app.use(express.json()); // Parse incoming JSON requests automatically
+app.use(cors());
+app.use(express.json());
 
 app.use('/api/phones', phoneRoutes);
 app.use('/api/ratings', ratingRoutes);
@@ -24,6 +24,7 @@ app.use('/api/admin', adminRoutes)
 app.use('/api/wishlist', wishlistRoutes)
 app.use('/api/notifications', notificationRoutes)
 app.use('/api/faqs', FaqRoutes);
+app.use('/api/phones', commentRoutes)
 
 // Start the server
 const PORT = process.env.PORT || 1080;

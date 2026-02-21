@@ -10,6 +10,8 @@ const PhoneDetails = () => {
   const [oldPrice, setOldPrice] = useState(null);
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState('');
   const [averageRatings, setAverageRatings] = useState(null);
   const [ratingInput, setRatingInput] = useState({
     camera: 0,
@@ -105,6 +107,33 @@ const PhoneDetails = () => {
     fetchPhone();
     checkIfRated();
   }, [phoneId, checkIfRated]);
+
+
+
+  const postComment = async () => {
+    const user = getAuth().currentUser
+    if (!user || !newComment.trim()) return
+    await axios.post(`http://localhost:1080/api/phones/${phoneId}/comments`, {
+      user: user.uid,
+      userName: user.displayName || user.email || 'Anonymous',
+      content: newComment
+    })
+    setNewComment('')
+    fetchComments()
+  } 
+
+  const fetchComments = useCallback(() => {
+    axios.get(`/api/phones/${phoneId}/comments`)
+      .then(res => setComments(res.data))
+      .catch(console.error);
+  }, [phoneId]);
+
+  useEffect(() => {
+    axios.get(`/api/phones/${phoneId}`)
+      .then(res => setPhone(res.data))
+      .catch(console.error);
+    fetchComments();
+  }, [phoneId, fetchComments]);
 
   useEffect(() => {
     fetchAverageRatings();
@@ -377,6 +406,30 @@ const PhoneDetails = () => {
           <p>No ratings yet.</p>
         )}
       </div>
+      
+      <section className="comments-section">
+        <h3>Comments</h3>
+        {comments.length
+          ? comments.map(c => (
+            <div key={c._id} className="comment-card">
+              <strong>{c.userName || 'Anonymous'}</strong>
+              <p>{c.content}</p>
+              <span className="comment-date">
+                {new Date(c.createdAt).toLocaleString()}
+              </span>
+            </div>
+          ))
+          : <p>No comments yet.</p>
+        }
+        <div className="comment-form">
+          <textarea
+            value={newComment}
+            onChange={e => setNewComment(e.target.value)}
+            placeholder="Write your comment…"
+          />
+          <button onClick={postComment}>Post Comment</button>
+        </div>
+      </section>
 
       {!hasRated ? (
         <div className="submit-rating-section">
@@ -396,12 +449,6 @@ const PhoneDetails = () => {
                 </select>
               </div>
             ))}
-            <label>Comment:</label>
-            <textarea
-              value={ratingInput.comment}
-              onChange={(e) => handleInputChange("comment", e.target.value)}
-              placeholder="Write your feedback..."
-            />
             <button type="submit">Submit Rating</button>
           </form>
         </div>

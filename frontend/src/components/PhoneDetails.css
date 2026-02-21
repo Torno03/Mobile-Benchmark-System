@@ -468,3 +468,50 @@ h2 {
     max-width: 100%;
   }
 }
+
+.comments-section {
+  margin-top: 2rem;
+}
+.comment-card {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
+.comment-card strong {
+  display: block;
+  font-size: 0.9rem;
+  color: #0052cc;
+}
+.comment-card p {
+  margin: 0.5rem 0;
+}
+.comment-date {
+  font-size: 0.75rem;
+  color: #666;
+}
+.comment-form {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+.comment-form textarea {
+  resize: vertical;
+  min-height: 60px;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.comment-form button {
+  align-self: flex-end;
+  margin-top: 0.5rem;
+  background: #0052cc;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.comment-form button:hover {
+  background: #0041a8;
+}

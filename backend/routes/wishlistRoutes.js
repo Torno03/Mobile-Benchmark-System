@@ -8,6 +8,6 @@ const router = express.Router()
 
 router.post('/add', addToWishlist)
 router.get('/', getWishlist)
-router.delete('/:id', removeFromWishlist)  // ← new
+router.delete('/:id', removeFromWishlist)
 
 module.exports = router

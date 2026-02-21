@@ -2,12 +2,12 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDkod-SUwajPmosvEIAF-s6Ou5zqjaNvlo",
-    authDomain: "mobile-benchmarking-auth.firebaseapp.com",
-    projectId: "mobile-benchmarking-auth",
-    storageBucket: "mobile-benchmarking-auth.firebasestorage.app",
-    messagingSenderId: "1029056169084",
-    appId: "1:1029056169084:web:4bf4e6967db6b5c1ddb5f9"
+    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_FIREBASE_APP_ID
 };
 
 const app = initializeApp(firebaseConfig);

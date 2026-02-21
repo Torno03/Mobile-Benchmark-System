@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { getAuth } from 'firebase/auth'
+import './Notifications.css'
+
+function formatDate(iso) {
+  return new Date(iso).toLocaleString([], {
+    day: '2-digit', month: 'short', year: 'numeric',
+    hour: '2-digit', minute: '2-digit'
+  })
+}
 
 export default function Notifications() {
   const [notes, setNotes] = useState([])
@@ -20,19 +28,29 @@ export default function Notifications() {
   }
 
   return (
-    <div className="notifications">
-      <h2>Notifications</h2>
-      {notes.length ? (
-        <ul>
+    <div className="notifications-container">
+      <h2 className="notifications-title">Your Notifications</h2>
+      {notes.length > 0 ? (
+        <div className="notifications-list">
           {notes.map(n => (
-            <li key={n._id} className={n.read ? 'read' : 'unread'}>
-              {n.message}
-              {!n.read && <button onClick={() => markRead(n._id)}>Mark Read</button>}
-            </li>
+            <div key={n._id} className={`notification-card ${n.read ? 'read' : 'unread'}`}>
+              <div className="notification-info">
+                <p className="notification-message">{n.message}</p>
+                <span className="notification-date">{formatDate(n.createdAt)}</span>
+              </div>
+              {!n.read && (
+                <button
+                  className="notification-action"
+                  onClick={() => markRead(n._id)}
+                >
+                  Mark Read
+                </button>
+              )}
+            </div>
           ))}
-        </ul>
+        </div>
       ) : (
-        <p>No notifications.</p>
+        <p className="no-notifications">No notifications right now.</p>
       )}
     </div>
   )
